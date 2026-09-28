@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>개인정보처리방침 - cs-addon-project</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 40px auto; padding: 0 20px; }
+    h1 { color: #1a73e8; border-bottom: 2px solid #e8eaed; padding-bottom: 12px; }
+    h2 { color: #202124; margin-top: 24px; border-bottom: 1px solid #f1f3f4; padding-bottom: 6px; }
+    .policy-box { background: #e8f0fe; border-left: 4px solid #1a73e8; padding: 15px; margin: 20px 0; border-radius: 4px; }
+    .footer { margin-top: 50px; font-size: 0.9em; color: #5f6368; border-top: 1px solid #dadce0; padding-top: 20px; }
+    a { color: #1a73e8; }
+  </style>
+</head>
+<body>
+  <p><a href="index.html">&larr; 메인으로 돌아가기</a></p>
+  <h1>개인정보처리방침 (Privacy Policy)</h1>
+  <p><strong>cs-addon-project</strong>(이하 "본 애플리케이션")는 사용자의 개인정보를 중요시하며, 「개인정보 보호법」 및 Google API 서비스 사용자 데이터 정책을 준수하고 있습니다. 본 방침은 본 애플리케이션이 수집하는 정보와 그 사용 방식을 안내합니다.</p>
+
+  <h2>1. 수집하는 정보 및 수집 방법</h2>
+  <p>본 애플리케이션은 Google Apps Script 기반 부가기능으로 동작하며, 서비스 제공을 위해 최소한의 권한만을 요청합니다.</p>
+  <ul>
+    <li><strong>Google 계정 정보:</strong> 사용자 식별 및 권한 확인을 위한 이메일 주소</li>
+    <li><strong>스프레드시트 데이터:</strong> 사용자가 본 애플리케이션을 적용한 스프레드시트의 셀 내용 (인수인계 내역, 생산/보고 데이터)</li>
+  </ul>
+
+  <h2>2. 정보의 이용 목적</h2>
+  <ul>
+    <li>구글 스프레드시트 내 데이터 자동 취합 및 인수인계 항목 표시</li>
+    <li>일일 업무 보고서 서식 자동 생성 및 동기화</li>
+    <li>사용자 작업 요청에 따른 스프레드시트 편집 기능 실행</li>
+  </ul>
+
+  <div class="policy-box">
+    <h3>Google API 서비스 사용자 데이터 정책 준수 (Google Limited Use)</h3>
+    <p>본 애플리케이션의 Google API 사용 및 다른 앱으로의 정보 전송은 <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank">Google API Services User Data Policy</a>(한정적 사용 요건 포함)를 엄격히 준수합니다.</p>
+    <p><em>"cs-addon-project's use and transfer to any other app of information received from Google APIs will adhere to Google API Services User Data Policy, including the Limited Use requirements."</em></p>
+  </div>
+
+  <h2>3. 데이터의 보관, 공유 및 제3자 제공 금지</h2>
+  <ul>
+    <li><strong>외부 서버 미전송:</strong> 본 애플리케이션은 사용자의 스프레드시트 데이터를 외부 제3자 데이터베이스나 자체 서버로 전송하지 않습니다.</li>
+    <li><strong>제3자 제공 금지:</strong> 사용자의 개인정보나 스프레드시트 데이터를 외부에 판매, 대여 또는 공유하지 않습니다. 모든 데이터 처리는 사용자의 Google Workspace / Google 드라이브 환경 내에서만 격리되어 수행됩니다.</li>
+    <li><strong>보관 기간:</strong> 본 애플리케이션 자체는 데이터를 별도 보관하지 않으며, 데이터는 사용자의 스프레드시트 삭제 또는 스크립트 연결 해제 시 즉시 접근이 차단됩니다.</li>
+  </ul>
+
+  <h2>4. 사용자의 권리 및 데이터 삭제</h2>
+  <p>사용자는 언제든지 Google 계정 보안 설정(<a href="https://myaccount.google.com/permissions" target="_blank">Google 계정 권한 관리</a>)에서 본 애플리케이션의 접근 권한을 철회할 수 있습니다. 권한 철회 시 본 애플리케이션은 사용자의 데이터에 더 이상 접근할 수 없습니다.</p>
+
+  <h2>5. 개인정보 보호책임자 및 문의</h2>
+  <p>본 애플리케이션의 개인정보 처리와 관련하여 문의사항이 있으신 경우 아래 연락처로 문의하시기 바랍니다.</p>
+  <ul>
+    <li>프로젝트명: cs-addon-project</li>
+    <li>문의: 관리자 Google 계정 이메일</li>
+  </ul>
+
+  <div class="footer">
+    <p>시행일자: 2026년 9월 28일</p>
+  </div>
+</body>
+</html>
