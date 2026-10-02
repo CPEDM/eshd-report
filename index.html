@@ -3,16 +3,30 @@
 <head>
   <meta name="google-site-verification" content="HBBmtuc_mUmu62T5yF46eMyDzHBrvhWsxt4VysqoLpw" />
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>풍산시스템 설비 인수인계 시스템</title>
   
-  <!-- 모바일 브라우저 상단바 다크 테마 일치 -->
+  <!-- 모바일 브라우저 상단바/전체화면 테마 일치 -->
   <meta name="theme-color" content="#0b0f19">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
+  <!-- 1. 구글 서버 및 필수 CDN 사전 연결 (네트워크 왕복 핸드셰이크 지연 제거) -->
+  <link rel="preconnect" href="https://script.google.com" crossorigin>
+  <link rel="preconnect" href="https://script.googleusercontent.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://script.google.com">
+  <link rel="dns-prefetch" href="https://script.googleusercontent.com">
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  <link rel="dns-prefetch" href="https://www.gstatic.com">
+
   <style>
-    /* 기본 여백 완전 제거 및 외부 스크롤 차단 */
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
     html, body {
       margin: 0;
       padding: 0;
@@ -20,26 +34,159 @@
       height: 100%;
       overflow: hidden;
       background-color: #0b0f19;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
     }
 
-    /* 100% 풀스크린 반응형 iframe (모바일 가상 키보드 팝업 시 꿀렁거림 완벽 방어) */
+    /* 접속 즉시 0.05초 만에 표시되는 네온 로딩 레이어 */
+    #loading-container {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #0b0f19;
+      color: #94a3b8;
+      z-index: 20;
+      transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .spinner-box {
+      position: relative;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .spinner {
+      position: absolute;
+      inset: 0;
+      border: 3.5px solid rgba(255, 255, 255, 0.06);
+      border-top-color: #38bdf8;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    .spinner-core {
+      width: 8px;
+      height: 8px;
+      background-color: #38bdf8;
+      border-radius: 50%;
+      box-shadow: 0 0 12px #38bdf8;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f1f5f9;
+      letter-spacing: -0.3px;
+      margin-bottom: 6px;
+    }
+
+    .loading-desc {
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    /* 7초 이상 지연 시 비상 탈출 버튼 */
+    #fallback-action {
+      display: none;
+      margin-top: 24px;
+      gap: 12px;
+    }
+
+    .btn-fallback {
+      display: inline-block;
+      padding: 9px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-fallback:active {
+      background: rgba(56, 189, 248, 0.2);
+    }
+
+    /* 풀스크린 iframe (모바일 가상 키보드 팝업 시 왜곡 방어) */
     #app-frame {
       position: fixed;
-      top: 0;
-      left: 0;
+      inset: 0;
       width: 100%;
       height: 100%;
       border: none;
       display: block;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: 10;
+    }
+
+    #app-frame.loaded {
+      opacity: 1;
     }
   </style>
 </head>
  
 <body>
+  <!-- 즉각 반응 로딩 UI -->
+  <div id="loading-container">
+    <div class="spinner-box">
+      <div class="spinner"></div>
+      <div class="spinner-core"></div>
+    </div>
+    <div class="loading-title">풍산시스템 설비 인수인계 시스템</div>
+    <div class="loading-desc">구글 보안 서버와 실시간 세션을 연결하고 있습니다...</div>
+
+    <!-- Cold Start 장기 대기 시 구원 액션 -->
+    <div id="fallback-action">
+      <a id="btn-direct-link" href="#" target="_blank" rel="noopener noreferrer" class="btn-fallback">새 창으로 열기</a>
+      <button onclick="location.reload()" class="btn-fallback">다시 시도</button>
+    </div>
+  </div>
+
+  <!-- 메인 웹앱 iframe (최신 배포 링크 반영) -->
   <iframe 
     id="app-frame" 
     src="https://script.google.com/macros/s/AKfycbwKp7-bx0_ewQTxjbFobAPNjEEDg8688AZZfX5b0MSksGqpocx5OzQa7bkrnW6p4oDO/exec"
     allow="clipboard-read; clipboard-write; fullscreen"
+    onload="handleFrameLoad()"
   ></iframe>
+
+  <script>
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbwKp7-bx0_ewQTxjbFobAPNjEEDg8688AZZfX5b0MSksGqpocx5OzQa7bkrnW6p4oDO/exec";
+    document.getElementById('btn-direct-link').href = GAS_URL;
+
+    // 7초 경과 시 Fallback 버튼 활성화
+    const fallbackTimer = setTimeout(() => {
+      const fallback = document.getElementById('fallback-action');
+      if (fallback) fallback.style.display = 'flex';
+    }, 7000);
+
+    function handleFrameLoad() {
+      clearTimeout(fallbackTimer);
+      const loader = document.getElementById('loading-container');
+      const frame = document.getElementById('app-frame');
+      
+      frame.classList.add('loaded');
+      loader.style.opacity = '0';
+      setTimeout(() => {
+        loader.style.display = 'none';
+      }, 400);
+    }
+  </script>
 </body>
 </html>
